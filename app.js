@@ -24,7 +24,7 @@ if(app.get('env') == 'development'){
 
 
 app.get('/', function(req, res){
-  res.send({ 'ok' : true });
+  res.render('index');
 });
 
 app.get('/photosByDate/:date', db.fetch, function(req, res){
