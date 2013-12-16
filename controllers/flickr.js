@@ -25,7 +25,7 @@ exports.fetch = function(date, next){
     next    : function(results){
       if(results.photos){
         next(parsePhotos(results.photos.photo));
-      } else res.send(500);
+      } else next(500);
     }
   });
 };

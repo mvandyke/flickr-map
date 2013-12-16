@@ -4,6 +4,7 @@ var path    = require('path');
 var app     = express();
 var flickr  = require('./controllers/flickr');
 var db      = require('./controllers/db');
+var socket  = require('./controllers/socket');
 
 process.env.PORT = process.env.PORT || 3000;
 app.set('port', process.env.PORT);
@@ -27,11 +28,15 @@ app.get('/', function(req, res){
   res.render('index');
 });
 
-app.get('/photosByDate/:date', db.fetch, function(req, res){
-  res.send(res.results);
+app.get('/photosByDate/:date', function(req, res){
+  db.fetch(req.params.date, function(results){
+    res.send(results);
+  });
 });
 
 
-http.createServer(app).listen(app.get('port'), function(){
+var server = http.createServer(app);
+server.listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
+socket.connector(server);

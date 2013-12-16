@@ -21,17 +21,15 @@ var save = function(date, results){
 };
 
 
-exports.fetch = function(req, res, next){
-  var results = photos.get(req.params.date);
+exports.fetch = function(date, next){
+  var results = photos.get(date);
 
   if(results){
-    res.results = results;
-    next();
+    next(results);
   } else {
-    flickr.fetch(req.params.date, function(apiResults){
-      save(req.params.date, apiResults);
-      res.results = apiResults;
-      next();
+    flickr.fetch(date, function(apiResults){
+      save(date, apiResults);
+      next(apiResults);
     });
   }
 };
