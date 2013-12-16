@@ -18,6 +18,7 @@ var save = function(date, results){
   });
 
   photos.set(date, photoToSave);
+  return photoToSave;
 };
 
 
@@ -28,8 +29,7 @@ exports.fetch = function(date, next){
     next(results);
   } else {
     flickr.fetch(date, function(apiResults){
-      save(date, apiResults);
-      next(apiResults);
+      next(save(date, apiResults));
     });
   }
 };
