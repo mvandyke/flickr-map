@@ -13,7 +13,10 @@ var save = function(date, results){
       owner     : photo.owner,
       title     : photo.title,
       latitude  : photo.latitude,
-      longitude : photo.longitude
+      longitude : photo.longitude,
+      farm      : photo.farm,
+      server    : photo.server,
+      secret    : photo.secret
     });
   });
 

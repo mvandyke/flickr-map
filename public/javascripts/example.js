@@ -1,6 +1,8 @@
 var milliSecondsPerDay = 86400000;
+var flickrURLTemplate  = 'http://farm<%=farm%>.staticflickr.com/<%=server%>/<%=id%>_<%=secret%>.jpg';
 
 var createMarker = function(data, map){
+  var imageUrl = _.template(flickrURLTemplate, data);
   return L.mapbox.markerLayer({
     type        : 'Feature',
     geometry    : {
@@ -8,9 +10,13 @@ var createMarker = function(data, map){
         coordinates : [data.longitude, data.latitude]
     },
     properties  : {
-        title           : data.title,
-        description     : '...',
-        'marker-color'  : '#C9ADAF'
+      title       : data.title,
+      image       : imageUrl,
+      icon        : {
+        iconUrl     : imageUrl,
+        iconSize    : [35, 35],
+        className   : 'circle'
+      }
     }
   }).addTo(map);
 };
@@ -72,4 +78,16 @@ window.onload = function(){
   createDateRange(yesterday);
 
   socket.emit('getPhotosByDate', moment(yesterday).format('YYYY-MM-DD'));
+
+  map.on('layeradd', function(e) {
+    if(e.layer){
+      var marker  = e.layer;
+      var feature = marker.feature;
+      if(feature){
+        marker.setIcon(L.icon(feature.properties.icon));
+        var popupContent =  '<img src="' + feature.properties.image + '">';
+         marker.bindPopup(popupContent, {minWidth: 320});
+      }
+    }
+  });
 };
