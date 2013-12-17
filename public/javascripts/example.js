@@ -1,10 +1,30 @@
-var socket = io.connect('http://localhost');
-socket.on('photos', function(data) {
-  console.log('request received');
-  console.log(data);
-});
+var createMarker = function(data){
+  L.mapbox.markerLayer({
+    type : 'Feature',
+    geometry : {
+        type        : 'Point',
+        coordinates : [data.longitude, data.latitude]
+    },
+    properties : {
+        title           : data.title,
+        description     : '...',
+        'marker-color'  : '#f0a'
+    }
+  }).addTo(map);
+};
 
-setTimeout(function(){
-  console.log('request made');
+
+
+window.onload = function(){
+
+  var socket = io.connect('http://localhost');
+  socket.on('photos', function(data){
+    data.forEach(function(item){
+      createMarker(item);
+    })
+  });
+
   socket.emit('getPhotosByDate', '2013-08-06');
-}, 2000);
+
+  window.map = L.mapbox.map('map', 'examples.map-20v6611k');
+};
