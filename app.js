@@ -28,7 +28,7 @@ app.get('/', function(req, res){
 });
 
 app.get('/photosByDate/:date', function(req, res){
-  db.fetch(req.params.date, function(results){
+  db.fetchPhotosByDate(req.params.date, function(results){
     res.send(results);
   });
 });
