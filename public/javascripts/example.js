@@ -94,7 +94,7 @@ window.onload = function(){
         marker.setIcon(L.icon(feature.properties.icon));
 
         var popup = _.template(mapPopupTemplate, e.layer.feature.data);
-        marker.bindPopup(popup, {minWidth: 320});
+        marker.bindPopup(popup, {minWidth: 520});
       }
     }
   });
