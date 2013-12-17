@@ -32,7 +32,11 @@ exports.fetch = function(date, next){
     next(results);
   } else {
     flickr.fetch(date, function(apiResults){
-      next(save(date, apiResults));
+      if(Object.prototype.toString.call(apiResults) === '[object Array]'){
+        next(save(date, apiResults));
+      } else{
+        next([]);
+      }
     });
   }
 };
