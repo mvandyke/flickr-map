@@ -3,13 +3,13 @@ var flickr  = require('./flickr');
 var client  = redis.createClient();
 
 
-exports.fetch = function(date, next){
+exports.fetchPhotosByDate = function(date, next){
   client.get(date, function(err, results){
     if(results){
       next(results);
     } else {
-      flickr.fetch(date, function(apiResults){
-        if(Object.prototype.toString.call(apiResults) === '[object Array]'){
+      flickr.fetchPhotosByDate(date, function(apiResults){
+        if(apiResults instanceof Array){
           client.set(date, apiResults);
           next(apiResults);
         } else{

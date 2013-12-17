@@ -15,7 +15,7 @@ var parsePhotos = function(photos){
 };
 
 
-exports.fetch = function(date, next){
+exports.fetchPhotosByDate = function(date, next){
   client.api({
     method  : 'flickr.interestingness.getList',
     params  : {

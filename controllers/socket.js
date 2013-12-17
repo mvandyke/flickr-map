@@ -8,7 +8,7 @@ exports.connector = function(server){
 
   io.sockets.on('connection', function(socket){
     socket.on('getPhotosByDate', function(date) {
-      db.fetch(date, function(photos){
+      db.fetchPhotosByDate(date, function(photos){
         socket.emit('photos', photos);
       });
     });
