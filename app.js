@@ -2,9 +2,8 @@ var express = require('express');
 var http    = require('http');
 var path    = require('path');
 var app     = express();
-var flickr  = require('./controllers/flickr');
-var db      = require('./controllers/db');
-var socket  = require('./controllers/socket');
+var db      = require('./libs/db');
+var socket  = require('./libs/socket');
 
 process.env.PORT = process.env.PORT || 3000;
 app.set('port', process.env.PORT);
