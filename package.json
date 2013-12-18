@@ -10,8 +10,8 @@
     "jade": "*",
     "stylus": "*",
     "flapi": "~1.1.0",
-    "dirty": "~0.9.7",
-    "socket.io": "~0.9.16"
+    "socket.io": "~0.9.16",
+    "redis": "~0.9.2"
   },
   "devDependencies": {
     "grunt": "~0.4.2",

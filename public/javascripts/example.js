@@ -72,7 +72,7 @@ var createDateRange = function(maxDate){
 window.onload = function(){
   var markers   = [];
   var map       = L.mapbox.map('map', 'examples.map-20v6611k');
-  window.socket = io.connect('http://localhost');
+  window.socket = io.connect('/');
 
   socket.on('photos', function(data){
     clearMarkers(markers);
