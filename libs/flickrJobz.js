@@ -5,18 +5,19 @@ var flickr  = require('./flickr');
 
 var runJob = function(dates){
 
-  dates.forEach(function(date){
+  var fetch = function(date){
     var dateString = moment(date).format('YYYY-MM-DD');
 
     flickr.fetchPhotosByDate(dateString, function(photos){
       if(photos instanceof Array){
         console.log('collected photos for: ', date);
         db.client.set(date, JSON.stringify(photos));
-        next(next);
-      } else {
-        console.log('timed out');
       }
     });
+  };
+
+  dates.forEach(function(date){
+    fetch(date);
   });
 };
 
@@ -38,4 +39,4 @@ exports.fillGapsInTimeline = function(){
 
     runJob(missingDates);
   });
-};
+}();
