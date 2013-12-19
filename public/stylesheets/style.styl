@@ -6,12 +6,31 @@ html, body
   height      100%
 body
   font        14px Helvetica, Arial, sans-serif
+  -webkit-transform all .85s ease-out
+
+  &.toggle
+    background #000
+
+    #map
+      -webkit-transform scale(.85) translate(-900px,0)
+
+    #rail
+      box-shadow: inset 0 0 600px, inset 0 0 800px rgba(0,0,0,.5)
+      -webkit-transform translate(0,0)
+
+      .item
+        opacity 1
+
+    #range-wrapper
+      -webkit-transform scale(.85) translate(-900px,0)
 
 #map
   width       100%
   height      100%
-  position    relative
+  position    fixed
   z-index     1
+  -webkit-transform translate(0,0)
+  -webkit-transition all .5s cubic-bezier(.14,.65,.25,.93)
 
 #range-wrapper
   position    absolute
@@ -21,6 +40,7 @@ body
   height      35px
   background  rgba(0,0,0,.8)
   border-top  2px solid rgba(255,255,255,.5)
+  -webkit-transition .5s cubic-bezier(.14,.65,.25,.93)
 
 #range-wrapper .date
   color       white
@@ -42,7 +62,35 @@ input[type='range']
   position    fixed
   top         0
   right       0
-  width       400px
+  width       60%
   height      100%
-  background  rgba(0,0,0,.65)
+  background  url(../img/tweed.png)
+  box-shadow  inset 0 0 600px #000, inset 0 0 800px #000, inset 0 0 1000px #000
   z-index     10
+  overflow-y  scroll
+  -webkit-perspective       800px
+  -webkit-transform-origin  right
+  -webkit-transition        .5s cubic-bezier(.14,.65,.25,.93)
+  -webkit-transform         translate(100%,0)
+
+  .item
+    width     25%
+    height    120px
+    float     left
+    overflow  hidden
+    opacity   0
+    &:nth-child(2n+5)
+      -webkit-transition .25s ease-out .4s
+    &:nth-child(3n+2)
+      -webkit-transition .3s ease-out .6s
+    &:nth-child(2n+1)
+      -webkit-transition: .1s ease-out .25s
+    &:nth-child(2n+2)
+      -webkit-transition .2s ease-out .35s
+
+
+    img
+      width   100%
+      height  100%
+      border  1px solid rgba(0,0,0,.4)
+

@@ -68,9 +68,15 @@ var createDateRange = function(maxDate){
   });
 };
 
+function makeWallObj(item) {
+  return {
+    image: item.image
+  };
+}
 
 window.onload = function(){
   var markers   = [];
+  var items = [];
   var map       = L.mapbox.map('map', 'examples.map-20v6611k');
   window.socket = io.connect('/');
 
@@ -78,6 +84,11 @@ window.onload = function(){
     clearMarkers(markers);
     data.forEach(function(item){
       markers.push(createMarker(item, map));
+      items.push(makeWallObj(item));
+    });
+
+    items.forEach(function(item) {
+      $('#rail').append( _.template( $('#item-tmpl').html(), item ) );
     });
   });
 
@@ -99,3 +110,4 @@ window.onload = function(){
     }
   });
 };
+
