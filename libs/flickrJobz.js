@@ -10,7 +10,7 @@ var runJob = function(dates){
 
     flickr.fetchPhotosByDate(dateString, function(photos){
       if(photos instanceof Array){
-        console.log('collected photos for: ', date);
+        console.log('collected photos for: ', moment(date).format('YYYY-MM-DD'));
         db.client.set(date, JSON.stringify(photos));
       }
     });
