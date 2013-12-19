@@ -10,7 +10,7 @@ var runJob = function(dates){
 
     flickr.fetchPhotosByDate(dateString, function(photos){
       if(photos instanceof Array){
-        console.log('collected photos for: ', moment(date).format('YYYY-MM-DD'));
+        console.log('collected photos for: ', dateString);
         db.client.set(date, JSON.stringify(photos));
       }
     });
@@ -24,7 +24,7 @@ var runJob = function(dates){
 
 exports.fillGapsInTimeline = function(){
   var yesterday     = new Date().getTime() - 86400000;
-  var startDate     = new Date('January 31, 2004').getTime();
+  var startDate     = new Date('February 1, 2004').getTime();
   var range         = moment(startDate).twix(yesterday);
   var iterator      = range.iterate('days');
   var missingDates  = [];
@@ -32,7 +32,8 @@ exports.fillGapsInTimeline = function(){
   db.client.keys('*', function(err, dates){
     while(iterator.hasNext()){
       var nextDate = iterator.next();
-      if(dates.indexOf(nextDate) == -1){
+      var formattedDate = moment(nextDate).format('YYYY-MM-DD');
+      if(dates.indexOf(formattedDate) == -1){
         missingDates.push(nextDate);
       }
     }
