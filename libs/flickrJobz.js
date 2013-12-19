@@ -3,41 +3,39 @@ var db      = require('./db');
 var flickr  = require('./flickr');
 
 
-var runJob = function(start, end){
-  var range     = moment(start).twix(end);
-  var iterator  = range.iterate('days');
+var runJob = function(dates){
 
-  var fetch = function(date, next){
-    flickr.fetchPhotosByDate(date, function(photos){
+  dates.forEach(function(date){
+    var dateString = moment(date).format('YYYY-MM-DD');
+
+    flickr.fetchPhotosByDate(dateString, function(photos){
       if(photos instanceof Array){
+        console.log('collected photos for: ', date);
         db.client.set(date, JSON.stringify(photos));
         next(next);
       } else {
-        console.log(photos);
+        console.log('timed out');
       }
     });
-  };
-
-  var poll = function(cb){
-    if(iterator.hasNext()){
-      var date = iterator.next().format('YYYY-MM-DD');
-      fetch(date, cb);
-    }
-  };
-
-  var startDate = moment(start).format('YYYY-MM-DD');
-  fetch(startDate, poll);
+  });
 };
 
 
-exports.collectAllPhotosFromBeginningOfTime = function(){
-  var yesterday = new Date().getTime() - 86400000;
-  var startDate = new Date('February 1, 2004').getTime();
+exports.fillGapsInTimeline = function(){
+  var yesterday     = new Date().getTime() - 86400000;
+  var startDate     = new Date('January 31, 2004').getTime();
+  var range         = moment(startDate).twix(yesterday);
+  var iterator      = range.iterate('days');
+  var missingDates  = [];
 
-  runJob(startDate, yesterday);
-}();
+  db.client.keys('*', function(err, dates){
+    while(iterator.hasNext()){
+      var nextDate = iterator.next();
+      if(dates.indexOf(nextDate) == -1){
+        missingDates.push(nextDate);
+      }
+    }
 
-
-exports.continueCollectingPhotosFromLastPoint = function(){
-
+    runJob(missingDates);
+  });
 };
