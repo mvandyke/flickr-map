@@ -28,3 +28,5 @@ exports.fetchPhotosByDate = function(date, next){
     }
   });
 };
+
+exports.client = client;
