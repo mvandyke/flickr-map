@@ -11,7 +11,7 @@ var runJob = function(dates){
     flickr.fetchPhotosByDate(dateString, function(photos){
       if(photos instanceof Array){
         console.log('collected photos for: ', dateString);
-        db.client.set(date, JSON.stringify(photos));
+        db.saveFlickrPhotos(dateString, photos);
       }
     });
   };
