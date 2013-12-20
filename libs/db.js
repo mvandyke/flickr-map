@@ -2,7 +2,7 @@ var redis   = require('redis');
 var flickr  = require('./flickr');
 var client  = {};
 
-if(process.env.NODE_ENV == 'production'){
+if(process.env.REDIS_HOST){
   client = redis.createClient(process.env.REDIS_PORT,
     process.env.REDIS_HOST,
     { auth_pass : process.env.REDIS_PASS }
@@ -28,3 +28,5 @@ exports.fetchPhotosByDate = function(date, next){
     }
   });
 };
+
+exports.client = client;
