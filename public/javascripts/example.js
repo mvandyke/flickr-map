@@ -1,9 +1,14 @@
 var milliSecondsPerDay = 86400000;
 var flickrURLTemplate  = 'http://farm<%= farm %>.staticflickr.com/<%= server %>/<%= id %>_<%= secret %>.jpg';
+var locationTemplate   = '<a target="_blank" href="http://wikipedia.org/wiki/<%= city %>"><%= location %></a>';
 var mapPopupTemplate   = [
   '<img src="<%= image %>" />',
-  '<h4><%= title %></h4>',
-  '<p><a target="_blank", href="https://www.google.com/maps/preview#!q=<%= latitude %>%2C<%= longitude %>"><%= latitude %>, <%= longitude %></a></p>'
+  '<h3><%= title %></h3>',
+  '<ul>',
+    '<li id="map-popup-location"></li>',
+    '<li><a target="_blank" href="http://flickr.com/photos/<%= owner %>">Author</a></li>',
+    '<li><a target="_blank", href="https://www.google.com/maps/preview#!q=<%= latitude %>%2C<%= longitude %>"><%= latitude %>, <%= longitude %></a></li>',
+  '</ul>'
 ].join('');
 
 var createMarker = function(data, map){
@@ -68,9 +73,15 @@ var createDateRange = function(maxDate){
   });
 };
 
+function makeWallObj(item) {
+  return {
+    image: item.image
+  };
+}
 
 window.onload = function(){
   var markers   = [];
+  var items = [];
   var map       = L.mapbox.map('map', 'examples.map-20v6611k');
   window.socket = io.connect('/');
 
@@ -78,6 +89,11 @@ window.onload = function(){
     clearMarkers(markers);
     data.forEach(function(item){
       markers.push(createMarker(item, map));
+      items.push(makeWallObj(item));
+    });
+
+    items.forEach(function(item) {
+      $('#rail').append( _.template( $('#item-tmpl').html(), item ) );
     });
   });
 
@@ -94,8 +110,21 @@ window.onload = function(){
         marker.setIcon(L.icon(feature.properties.icon));
 
         var popup = _.template(mapPopupTemplate, e.layer.feature.data);
-        marker.bindPopup(popup, {minWidth: 520});
+        marker.bindPopup(popup, {minWidth: 520}).on('click', function(e){
+          var data = e.target.feature.data;
+          reverse({
+            lat : data.latitude,
+            lon : data.longitude
+          }, function(err, location, city){
+            var renderedTemplate = _.template(locationTemplate, {
+              location  : location,
+              city      : city
+            });
+            $('#map-popup-location').html(renderedTemplate);
+          });
+        });
       }
     }
   });
 };
+
