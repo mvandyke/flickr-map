@@ -1,10 +1,12 @@
 var milliSecondsPerDay = 86400000;
 var flickrURLTemplate  = 'http://farm<%= farm %>.staticflickr.com/<%= server %>/<%= id %>_<%= secret %>.jpg';
+var locationTemplate   = '<a target="_blank" href="http://wikipedia.org/wiki/<%= city %>"><%= location %></a>';
 var mapPopupTemplate   = [
   '<img src="<%= image %>" />',
   '<h3><%= title %></h3>',
   '<ul>',
     '<li id="map-popup-location"></li>',
+    '<li><a target="_blank" href="http://flickr.com/photos/<%= owner %>">Author</a></li>',
     '<li><a target="_blank", href="https://www.google.com/maps/preview#!q=<%= latitude %>%2C<%= longitude %>"><%= latitude %>, <%= longitude %></a></li>',
   '</ul>'
 ].join('');
@@ -111,10 +113,14 @@ window.onload = function(){
         marker.bindPopup(popup, {minWidth: 520}).on('click', function(e){
           var data = e.target.feature.data;
           reverse({
-            lat : data.latitude, 
+            lat : data.latitude,
             lon : data.longitude
-          }, function(err, location){
-            $('#map-popup-location').text(location);
+          }, function(err, location, city){
+            var renderedTemplate = _.template(locationTemplate, {
+              location  : location,
+              city      : city
+            });
+            $('#map-popup-location').html(renderedTemplate);
           });
         });
       }

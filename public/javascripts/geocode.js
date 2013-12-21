@@ -5,6 +5,7 @@ var reverse   = function(opts, next){
     lon : opts.lon
   }, function(err, data){
     var locationString = '';
+    var city = '';
 
     if(data.results){
       // Assume the first location result is correct
@@ -12,8 +13,10 @@ var reverse   = function(opts, next){
       results.forEach(function(location, index){
 
         var prefix = '';
-        if(index === 0) prefix = '';
-        else if(index === results.length - 1){
+        if(index === 0){
+          prefix  = '';
+          city    = location.name;
+        } else if(index === results.length - 1){
           prefix = ' - ';
         } else prefix = ', ';
 
@@ -22,6 +25,6 @@ var reverse   = function(opts, next){
       });
     }
 
-    next(err, locationString);
+    next(err, locationString, city);
   });
 };
