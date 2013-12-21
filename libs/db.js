@@ -15,14 +15,14 @@ if(process.env.REDIS_HOST){
 exports.fetchPhotosByDate = function(date, next){
   client.get(date, function(err, results){
     if(results){
-      next(JSON.parse(results));
+      if(next) next(JSON.parse(results));
     } else {
       flickr.fetchPhotosByDate(date, function(apiResults){
         if(apiResults instanceof Array){
           saveFlickrPhotos(date, apiResults);
-          next(apiResults);
+          if(next) next(apiResults);
         } else{
-          next([]);
+          if(next) next([]);
         }
       });
     }
