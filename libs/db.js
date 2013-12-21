@@ -19,7 +19,7 @@ exports.fetchPhotosByDate = function(date, next){
     } else {
       flickr.fetchPhotosByDate(date, function(apiResults){
         if(apiResults instanceof Array){
-          saveFlickrPhotos(date, JSON.stringify(apiResults));
+          saveFlickrPhotos(date, apiResults);
           next(apiResults);
         } else{
           next([]);

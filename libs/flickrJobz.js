@@ -40,4 +40,4 @@ exports.fillGapsInTimeline = function(){
 
     runJob(missingDates);
   });
-}();
+};

@@ -1,2 +1,2 @@
 database:
-	node libs/flickrJobz.js
+	node tasks/makeDatabase.js
