@@ -5,7 +5,8 @@
 html, body
   height      100%
 body
-  font        14px Helvetica, Arial, sans-serif
+  font        14px 'omnes-pro', Helvetica, Arial, sans-serif
+  font-weight 300
   -webkit-transform all .85s ease-out
 
   &.toggle
@@ -21,6 +22,9 @@ body
       .item
         opacity 1
 
+        img
+          -webkit-transform translate(0,0) scale(1)
+
     #range-wrapper
       -webkit-transform scale(.85) translate(-900px,0)
 
@@ -35,7 +39,7 @@ body
 #range-wrapper
   position    absolute
   z-index     2
-  bottom      0
+  bottom      55px
   width       100%
   height      35px
   background  rgba(0,0,0,.8)
@@ -80,17 +84,29 @@ input[type='range']
     overflow  hidden
     opacity   0
     &:nth-child(2n+5)
-      -webkit-transition .25s ease-out .4s
+      -webkit-transition    .25s ease-out .4s
     &:nth-child(3n+2)
-      -webkit-transition .3s ease-out .6s
+      -webkit-transition    .3s ease-out .6s
     &:nth-child(2n+1)
-      -webkit-transition: .1s ease-out .25s
+      -webkit-transition    .1s ease-out .25s
     &:nth-child(2n+2)
-      -webkit-transition .2s ease-out .35s
+      -webkit-transition    .2s ease-out .35s
 
 
     img
       width   100%
       height  100%
       border  1px solid rgba(0,0,0,.4)
+      -webkit-transition .45s ease-out .25s
 
+#zinger
+  position: fixed
+  bottom: 0
+  left: 0
+  width: 100%
+  height: 55px
+  z-index: 3
+  background: rgba(71,163,218,.8)
+  box-shadow: 0 -10px 50px rgba(0,0,0,.12)
+  padding: 20px 40px
+  border-top: 1px solid #3086B9
