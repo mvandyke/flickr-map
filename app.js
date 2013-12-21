@@ -4,6 +4,7 @@ var path    = require('path');
 var app     = express();
 var db      = require('./libs/db');
 var socket  = require('./libs/socket');
+var daily   = require('./tasks/dailyDatabaseUpdate');
 
 process.env.PORT = process.env.PORT || 3000;
 app.set('port', process.env.PORT);
