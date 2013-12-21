@@ -1,5 +1,35 @@
+<!DOCTYPE html>
 <html>
+  <head>
+    <title></title>
+
+    <link rel='stylesheet' href='/public/stylesheets/app.css'>
+    <link href='//api.tiles.mapbox.com/mapbox.js/v1.5.2/mapbox.css' rel='stylesheet'>
+
+    <script src='/socket.io/socket.io.js'></script>
+    <script src='//api.tiles.mapbox.com/mapbox.js/v1.5.2/mapbox.js'></script>
+    <script src='/public/javascripts/vendor/moment.js'></script>
+    <script src='/public/javascripts/vendor/underscore.js'></script>
+    <script src='/public/javascripts/vendor/twix.js'></script>
+    <script src='/public/javascripts/vendor/zepto.js'></script>
+    <script src='/public/javascripts/geocode.js'></script>
+    <script src='/public/javascripts/example.js'></script>
+    <script src='//use.typekit.net/zxf2tou.js'></script>
+    <script>
+      try{Typekit.load();}catch(e){}
+    </script>
+  </head>
+
   <body>
-    <h1>Test</h1>
+    <div id='map'></div>
+    <div id='rail'></div>
+
+    <ul id='zinger'>
+      <li><a href='#'>Home</a></li>
+      <li><a href='#'>Veggie made</a></li>
+    </ul>
+
+    <script id='item-tmpl' type='text/template'><div class='item'><img src='<%= image %>'></div></script>
   </body>
+
 </html>
