@@ -2,8 +2,11 @@ var milliSecondsPerDay = 86400000;
 var flickrURLTemplate  = 'http://farm<%= farm %>.staticflickr.com/<%= server %>/<%= id %>_<%= secret %>.jpg';
 var mapPopupTemplate   = [
   '<img src="<%= image %>" />',
-  '<h4><%= title %></h4>',
-  '<p><a target="_blank", href="https://www.google.com/maps/preview#!q=<%= latitude %>%2C<%= longitude %>"><%= latitude %>, <%= longitude %></a></p>'
+  '<h3><%= title %></h3>',
+  '<ul>',
+    '<li id="map-popup-location"></li>',
+    '<li><a target="_blank", href="https://www.google.com/maps/preview#!q=<%= latitude %>%2C<%= longitude %>"><%= latitude %>, <%= longitude %></a></li>',
+  '</ul>'
 ].join('');
 
 var createMarker = function(data, map){
@@ -105,7 +108,15 @@ window.onload = function(){
         marker.setIcon(L.icon(feature.properties.icon));
 
         var popup = _.template(mapPopupTemplate, e.layer.feature.data);
-        marker.bindPopup(popup, {minWidth: 520});
+        marker.bindPopup(popup, {minWidth: 520}).on('click', function(e){
+          var data = e.target.feature.data;
+          reverse({
+            lat : data.latitude, 
+            lon : data.longitude
+          }, function(err, location){
+            $('#map-popup-location').text(location);
+          });
+        });
       }
     }
   });
