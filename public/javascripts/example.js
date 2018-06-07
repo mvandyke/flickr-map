@@ -28,7 +28,6 @@ var createMarker = function(data, map){
   }).addTo(map);
 };
 
-
 var clearMarkers = function(markers){
   markers.forEach(function(marker){
     marker.clearLayers();
